@@ -3173,6 +3173,345 @@
     /* Si la pestaña se oculta, el teatro se congela */
     .acto--oculto .acto__escena *,
     .acto--oculto .acto__proyeccion * { animation-play-state: paused !important; }
+
+    /* ============================================================
+       20. PULIDO MULTIPLATAFORMA Y TÁCTIL
+       Ajustes finales sobre el diseño existente: más legibilidad,
+       márgenes seguros y una galería editorial en pantallas pequeñas.
+       ============================================================ */
+    html {
+      scroll-padding-top: calc(76px + env(safe-area-inset-top, 0px));
+    }
+
+    body {
+      text-rendering: optimizeLegibility;
+    }
+
+    .barra {
+      height: auto;
+      min-height: 64px;
+      padding: max(0.6rem, env(safe-area-inset-top, 0px)) clamp(var(--esp-sm), 4vw, var(--esp-md)) 0.6rem;
+      background: rgba(255, 253, 252, 0.94);
+      box-shadow: 0 8px 24px rgba(17, 17, 17, 0.045);
+    }
+
+    .menu {
+      top: calc(64px + env(safe-area-inset-top, 0px));
+      z-index: 61;
+      box-shadow: 0 18px 34px rgba(17, 17, 17, 0.09);
+      transition-timing-function: cubic-bezier(0.22, 0.72, 0.25, 1);
+    }
+
+    .seccion__etiqueta {
+      color: var(--vino);
+    }
+
+    .portada__etiqueta {
+      color: var(--vino);
+    }
+
+    .revelar {
+      transition-timing-function: cubic-bezier(0.22, 0.72, 0.25, 1);
+    }
+
+    .hero__figura .marco {
+      overflow: hidden;
+      transition: transform 500ms cubic-bezier(0.22, 0.72, 0.25, 1), box-shadow 500ms ease;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .hero__figura:hover .marco {
+        transform: translateY(-4px);
+        box-shadow: var(--sombra-lg);
+      }
+    }
+
+    .polaroid {
+      transition: opacity 520ms ease, transform 360ms cubic-bezier(0.22, 0.72, 0.25, 1), box-shadow 360ms ease, border-color 360ms ease;
+    }
+
+    .polaroid.revelar {
+      transform: translateY(16px) rotate(var(--rot, 0deg));
+    }
+
+    .polaroid.revelar.visible {
+      transform: rotate(var(--rot, 0deg));
+    }
+
+    .polaroid.revelar.visible:hover,
+    .polaroid.revelar.visible:focus-visible {
+      transform: rotate(0deg) translateY(-6px) scale(1.02);
+    }
+
+    .razon.revelar {
+      transition: opacity 520ms ease, transform 360ms cubic-bezier(0.22, 0.72, 0.25, 1), box-shadow 360ms ease;
+    }
+
+    .editorial__figura.revelar {
+      transition: opacity 520ms ease, transform 520ms cubic-bezier(0.22, 0.72, 0.25, 1);
+    }
+
+    .polaroid:focus-visible {
+      border-color: var(--vino);
+    }
+
+    .lightbox {
+      padding: max(var(--esp-md), env(safe-area-inset-top, 0px)) max(var(--esp-md), env(safe-area-inset-right, 0px)) max(var(--esp-md), env(safe-area-inset-bottom, 0px)) max(var(--esp-md), env(safe-area-inset-left, 0px));
+    }
+
+    @media (max-width: 899px) {
+      .menu {
+        max-height: calc(100dvh - 64px - env(safe-area-inset-top, 0px));
+        overflow-y: auto;
+        overscroll-behavior: contain;
+      }
+    }
+
+    @media (max-width: 719px) {
+      html {
+        scroll-padding-top: calc(78px + max(0px, env(safe-area-inset-top, 0px) - 0.6rem));
+      }
+
+      .barra {
+        padding-inline: max(var(--esp-sm), env(safe-area-inset-left, 0px)) max(var(--esp-sm), env(safe-area-inset-right, 0px));
+        height: calc(66px + max(0px, env(safe-area-inset-top, 0px) - 0.6rem));
+      }
+
+      .barra__menu-boton {
+        width: 46px;
+        height: 46px;
+        flex: 0 0 46px;
+      }
+
+      .menu {
+        top: calc(66px + max(0px, env(safe-area-inset-top, 0px) - 0.6rem));
+        max-height: calc(100dvh - 66px - max(0px, env(safe-area-inset-top, 0px) - 0.6rem));
+        padding: 0.65rem max(var(--esp-sm), env(safe-area-inset-left, 0px)) max(1rem, env(safe-area-inset-bottom, 0px));
+        border-radius: 0 0 18px 18px;
+      }
+
+      .menu a {
+        min-height: 48px;
+        display: flex;
+        align-items: center;
+        font-size: 0.76rem;
+        letter-spacing: 0.12em;
+      }
+
+      .hero {
+        min-height: 100svh;
+        padding-top: calc(78px + max(0px, env(safe-area-inset-top, 0px) - 0.6rem));
+        padding-bottom: clamp(2rem, 7vh, 3.25rem);
+      }
+
+      .hero__contenedor {
+        gap: clamp(1.35rem, 5vw, 2rem);
+      }
+
+      .hero__sello {
+        width: 46px;
+        height: 46px;
+        margin-bottom: 0.75rem;
+      }
+
+      .hero__etiqueta,
+      .seccion__etiqueta {
+        letter-spacing: 0.2em;
+      }
+
+      .hero__fecha {
+        font-size: 0.76rem;
+        line-height: 1.7;
+        letter-spacing: 0.08em;
+      }
+
+      .hero__figura {
+        width: min(380px, 88vw);
+      }
+
+      .hero__figura .marco {
+        padding: 7px;
+        border-radius: 18px;
+      }
+
+      .hero__figura img {
+        border-radius: 12px;
+      }
+
+      .contador {
+        padding-block: 1.2rem;
+      }
+
+      .contador__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.1rem 0.75rem;
+      }
+
+      .contador__bloque strong {
+        font-size: clamp(1.75rem, 8vw, 2.35rem);
+      }
+
+      .contador__bloque small {
+        font-size: 0.6rem;
+        letter-spacing: 0.16em;
+      }
+
+      .seccion {
+        padding-block: clamp(3.5rem, 11vw, 4.6rem);
+        padding-inline: max(var(--esp-sm), env(safe-area-inset-left, 0px)) max(var(--esp-sm), env(safe-area-inset-right, 0px));
+        scroll-margin-top: calc(78px + max(0px, env(safe-area-inset-top, 0px) - 0.6rem));
+      }
+
+      .seccion__titulo {
+        max-width: 18ch;
+        font-size: clamp(2rem, 8.2vw, 2.75rem);
+        line-height: 1.08;
+        text-wrap: balance;
+      }
+
+      .revelar {
+        transform: translateY(16px);
+        transition-duration: 520ms;
+      }
+
+      .galeria {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: clamp(12px, 3vw, 18px);
+        padding-inline: 3px;
+      }
+
+      .polaroid {
+        min-width: 0;
+        padding: 8px 8px 11px;
+        border-radius: 14px;
+        --rot: 0deg;
+      }
+
+      .polaroid:nth-child(6n+2) { --rot: 0.6deg; }
+      .polaroid:nth-child(6n+3) { --rot: -0.5deg; }
+      .polaroid:nth-child(6n+4) { --rot: 0.7deg; }
+      .polaroid:nth-child(6n+5) { --rot: -0.6deg; }
+      .polaroid:nth-child(6n+6) { --rot: 0.4deg; }
+
+      .polaroid--destacado {
+        grid-column: 1 / -1;
+      }
+
+      .polaroid img {
+        border-radius: 9px;
+      }
+
+      .polaroid--destacado img {
+        aspect-ratio: 16 / 10;
+      }
+
+      .polaroid figcaption {
+        margin-top: 7px;
+        font-size: clamp(1rem, 4.2vw, 1.2rem);
+        line-height: 1.18;
+        text-wrap: balance;
+      }
+
+      .polaroid .numero {
+        margin-bottom: 2px;
+        font-size: 0.56rem;
+      }
+
+      .razon {
+        padding: 1.15rem;
+      }
+
+      .mapa {
+        min-height: 230px;
+        height: clamp(230px, 65vw, 300px);
+      }
+
+      .acto-cta__boton {
+        width: 100%;
+        min-height: 76px;
+        padding: 1rem 1.15rem;
+      }
+
+      .lightbox {
+        padding: max(1rem, env(safe-area-inset-top, 0px)) max(1rem, env(safe-area-inset-right, 0px)) max(1rem, env(safe-area-inset-bottom, 0px)) max(1rem, env(safe-area-inset-left, 0px));
+      }
+
+      .lightbox__imagen {
+        max-height: 72dvh;
+      }
+
+      .minijuego__caja {
+        max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 1rem);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+      }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .polaroid.revelar.visible:hover:not(:active) {
+        transform: rotate(var(--rot, 0deg));
+        box-shadow: var(--sombra-sm);
+      }
+
+      .polaroid.revelar.visible:active {
+        transform: rotate(var(--rot, 0deg)) translateY(-3px) scale(1.01);
+      }
+
+      .razon:hover {
+        transform: none;
+        box-shadow: var(--sombra-sm);
+      }
+
+      .hero__figura:hover img {
+        filter: grayscale(1) contrast(1.04);
+      }
+    }
+
+    @media (max-width: 400px) {
+      .barra {
+        gap: 0.6rem;
+      }
+
+      .barra__marca {
+        font-size: clamp(0.98rem, 4.8vw, 1.16rem);
+        letter-spacing: 0;
+        white-space: nowrap;
+      }
+
+      .barra > .audio-toggle {
+        width: 46px;
+        flex: 0 0 46px;
+        justify-content: center;
+        gap: 0;
+        padding-inline: 0;
+      }
+
+      .barra > .audio-toggle .audio-toggle__texto {
+        display: none;
+      }
+    }
+
+    @media (max-width: 359px) {
+      .galeria {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 16px;
+      }
+
+      .polaroid--destacado {
+        grid-column: auto;
+      }
+
+      .polaroid--destacado img {
+        aspect-ratio: 4 / 3;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero__figura .marco,
+      .polaroid {
+        transition-duration: 0.01ms;
+      }
+    }
   </style>
 </head>
 <body class="bloqueado">
