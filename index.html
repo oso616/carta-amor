@@ -176,8 +176,11 @@
 
     /* Botón menú: círculo con 3 líneas que desplega las secciones */
     .barra__menu-boton {
-      display: grid;
-      place-items: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
       width: 44px; height: 44px;
       background: var(--blanco);
       border: 1.5px solid var(--gris-borde);
@@ -191,17 +194,17 @@
     .barra__menu-boton:hover { border-color: var(--vino); box-shadow: 0 4px 12px rgba(141, 47, 76, 0.15); }
     .barra__menu-boton:focus-visible { outline: 2px solid var(--vino); outline-offset: 2px; border-color: var(--vino); }
     .barra__menu-boton:active { transform: scale(0.94); }
-    .barra__menu-boton .linea {
+    .barra__menu-boton .barra__linea {
       display: block;
+      flex: 0 0 auto;
       width: 22px; height: 2px;
       background: var(--negro);
-      margin: 3px 0;
       border-radius: 2px;
       transition: transform var(--transicion), opacity var(--transicion), background var(--transicion);
     }
-    .barra__menu-boton[aria-expanded="true"] .linea:nth-child(1) { transform: translateY(6px) rotate(45deg); background: var(--vino); }
-    .barra__menu-boton[aria-expanded="true"] .linea:nth-child(2) { opacity: 0; }
-    .barra__menu-boton[aria-expanded="true"] .linea:nth-child(3) { transform: translateY(-6px) rotate(-45deg); background: var(--vino); }
+    .barra__menu-boton[aria-expanded="true"] .barra__linea:nth-child(1) { transform: translateY(5px) rotate(45deg); background: var(--vino); }
+    .barra__menu-boton[aria-expanded="true"] .barra__linea:nth-child(2) { opacity: 0; }
+    .barra__menu-boton[aria-expanded="true"] .barra__linea:nth-child(3) { transform: translateY(-5px) rotate(-45deg); background: var(--vino); }
 
     .menu {
       list-style: none;
@@ -3715,9 +3718,9 @@
     <button class="barra__menu-boton" id="boton-menu" type="button"
             aria-expanded="false" aria-controls="menu-navegacion"
             aria-label="Abrir menú de navegación">
-      <span class="linea" aria-hidden="true"></span>
-      <span class="linea" aria-hidden="true"></span>
-      <span class="linea" aria-hidden="true"></span>
+      <span class="barra__linea" aria-hidden="true"></span>
+      <span class="barra__linea" aria-hidden="true"></span>
+      <span class="barra__linea" aria-hidden="true"></span>
     </button>
 
     <nav aria-label="Navegación principal">
