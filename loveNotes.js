@@ -4,7 +4,7 @@
    Datos + utilidades de la penúltima sección de la experiencia
    teatral («Nuestro Primer Acto»).
 
-   · window.LOVE_NOTES → las 100 notas románticas, en orden.
+   · window.LOVE_NOTES → las 124 notas románticas, en orden.
        { id, text, date }   (date: null hasta que exista una real)
    · window.LoveNotes  → utilidades puras y reutilizables:
        normalizar(texto)          copia para análisis (no se muestra)
@@ -25,7 +25,7 @@
 (function (global) {
   "use strict";
 
-  /* ---------- 1. Las 100 notas (texto original, sin retocar) ---------- */
+  /* ---------- 1. Las 124 notas (texto original, sin retocar) ---------- */
   var TEXTOS = [
     "Te amoooo, amorcito mío.",
     "Te extrañooo, amorrr.",
@@ -126,7 +126,31 @@
     "Mi princeshitaaa, amooo absolutamente todo de ti: tu carita, tu vocecita, tu forma de hablar y ese corazoncito tan precioso que tienes.",
     "Te extrañooo un montonazo, amor, y cada vez que pienso en ti solamente deseo que el tiempo pase más rápido para poder volver a verte.",
     "Amorrr, eres mi lugar favoritooo porque no importa dónde estemos, mientras esté contigo me siento tranquilo, feliz y demasiado amado.",
-    "Cómo te amoooo, mi niña preciosa. Te lo jurooo, volvería a elegirte una y mil veces porque sos todo lo lindo que quiero en mi vida. 💗"
+    "Cómo te amoooo, mi niña preciosa. Te lo jurooo, volvería a elegirte una y mil veces porque sos todo lo lindo que quiero en mi vida. 💗",
+    "Amorrrr, ¡cómo te amoooo! No esperooo por volver a verte, amorcito mío.",
+    "Ya quiero que sea enero para poder volver a ver esos ojitos tan bellosss.",
+    "¡Cómo adoroooo que seas mi parejita tan bellaaaa!",
+    "De verdad, amorcitooo, no entiendoooo cómo logré que una mujercitaaa tan bellaaaa y perfectitaaa sea mi pareja. De verdad, pienso en eso y me hace tan felizzzz.",
+    "Te lo jurooo, amorrr, ya te quieroooo ver. Me encanta hacer todas las cosas junto a ti, mi vida hermosa.",
+    "Eres mi todo, todito, amorrr.",
+    "¡Yo te recontraaaa amooo muchote, recontraaaa muchoooo, amorrrr!",
+    "¡WAPAAAAAA!",
+    "No puedo explicar la felicidad que me haces sentir, amor. De verdad, cada día me alegras más y más, amorrr.",
+    "¡Tan perfectita que sos, amorrr! Eres mi todoooo.",
+    "No puedo esperar más para que nos reencontremos nuevamente.",
+    "¡Cómooooooo te amooo, mi vida preciosaaa! Ya quiero que vengasss para enseñarte todooo aquí y que conozcas a mi familia, amor.",
+    "De verdad, cada vez me siento más feliz de tenerte, amor.",
+    "De verdad, no hay día en el cual no anhele volver a ver esa carita tan preciosa que tienes.",
+    "Aunque no lo creasss, amor, cuando andas cantando toda tiernita y dulce, me alegras todo el día, amor.",
+    "No te podés imaginar cuánto te quiero y te adoro, pero, por sobre todo, ¡cuánto te AMMOOOOOOOOOOO!",
+    "¡Qué preciosidad que eres, amor!",
+    "Cada vez que me mandas una fotito tuya, me haces tan feliz, amor. ¡Si sos tan perfectita, mi princheshita!",
+    "Ya quiero que llegue el día en el cual me despierte y lo primero que vea seas tú, amor de mi viditaaaa.",
+    "Amorrrr, haré todo lo que esté en mis manos para poder ir tantas veces como pueda al año y así pasar aunque sea un segundo más a tu lado, al lado de la mujercita tan maravillosa que eres, amor.",
+    "Ya sé que vendrás en enero y ya solo quiero saber cuándo será la próxima vez que nos veamos después de eso, porque de verdad te amo y quiero estar tantas veces como pueda a tu lado, amor de mi corazoncito.",
+    "¡Wapaaaa, tan preciosa que eres! ¡Me fascinasssssss, hermosaaaa!",
+    "Oyeeeeee, eres mi drogita, de verdad, jejejeje. ¡Cómo te amoooo!",
+    "Siempre me dejas sin palabras, amor, porque eres demasiado perfectita y, en realidad, estoy muy, muy feliz de estar contigo. Aunque llevemos solo 3 meses, me encanta haberlos pasado contigo, amor. Me has hecho demasiado feliz y no hubiera cambiado nada en mi vida, porque cada cosa que he hecho me ha llevado hasta ti, y eso es algo de lo que nunca me arrepentiré, porque lo eres todo, todito para mí, mi vida preciosa. Me encantas y, de verdad, aunque la distancia sea difícil, yo por ti la sobrellevo, porque tú lo vales. No me importa lo que me espere en el futuro, si es a tu lado, yo encantado de lo que sea, porque eres lo mejor que hay y el lugar donde esté contigo será un lugar perfecto para mí, amorcito de mi vidaaa. ¡Te amoo mucho, muchote, amor!"
   ];
 
   var LOVE_NOTES = TEXTOS.map(function (texto, i) {
@@ -337,7 +361,7 @@
   /* ---------- 8. Verificación de integridad (avisa, no rompe) ---------- */
   (function verificar() {
     var avisos = [];
-    if (LOVE_NOTES.length !== 100) avisos.push("Se esperaban 100 notas y hay " + LOVE_NOTES.length + ".");
+    if (LOVE_NOTES.length !== 124) avisos.push("Se esperaban 124 notas y hay " + LOVE_NOTES.length + ".");
     var vistos = {}, duplicados = [];
     LOVE_NOTES.forEach(function (n) {
       if (vistos[n.id]) duplicados.push(n.id);

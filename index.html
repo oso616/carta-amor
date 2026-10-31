@@ -2341,6 +2341,64 @@
       text-align: center;
     }
 
+    /* ---------- Dibujo de la paloma: miniatura seleccionable ---------- */
+    .acto__dibujo {
+      display: block;
+      width: min(18rem, 64vw);
+      max-width: 82%;
+      margin-left: auto;
+      margin-right: 6%;
+      padding: 0;
+      border: 0;
+      border-radius: 4px;
+      background: none;
+      cursor: zoom-in;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .acto__dibujo-marco {
+      position: relative;
+      display: block;
+      padding: 0.45rem 0.45rem 0.55rem;
+      border-radius: 4px;
+      background: #FBF6E9;
+      box-shadow: 0 16px 34px rgba(0, 0, 0, 0.5);
+      transform: rotate(-1.5deg);
+      transition: transform 220ms ease, box-shadow 220ms ease;
+    }
+    .acto__dibujo img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 2px;
+    }
+    .acto__dibujo-pista {
+      position: absolute;
+      right: 0.55rem;
+      bottom: 0.55rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.32rem 0.58rem;
+      border-radius: 999px;
+      background: rgba(5, 5, 5, 0.74);
+      color: var(--acto-marfil);
+      font-family: var(--fuente-sans);
+      font-size: 0.62rem;
+      letter-spacing: 0.04em;
+      line-height: 1;
+      pointer-events: none;
+      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
+    }
+    .acto__dibujo:hover .acto__dibujo-marco,
+    .acto__dibujo:focus-visible .acto__dibujo-marco {
+      transform: rotate(-1.5deg) scale(1.025);
+      box-shadow: 0 20px 44px rgba(0, 0, 0, 0.62);
+    }
+    .acto__dibujo:focus-visible { outline: 2px solid var(--acto-dorado); outline-offset: 4px; }
+    .acto__dibujo:active .acto__dibujo-marco { transform: rotate(-1.5deg) scale(0.99); }
+
     /* ---------- Notas flotantes del bloc ---------- */
     .acto__notas {
       display: grid;
@@ -3091,6 +3149,67 @@
       text-align: center;
     }
 
+    /* ---------- Capa 60: visor del dibujo ---------- */
+    .acto__visor[hidden] { display: none; }
+    .acto__visor {
+      position: absolute;
+      inset: 0;
+      z-index: 60;
+      display: grid;
+      place-items: center;
+      padding: clamp(1rem, 5vw, 3rem);
+      background:
+        radial-gradient(120% 100% at 50% 0%, rgba(118, 19, 35, 0.28), transparent 62%),
+        #050505;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 320ms ease, visibility 0s linear 320ms;
+    }
+    .acto__visor--abierto {
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 320ms ease;
+    }
+    .acto__visor-figura {
+      display: grid;
+      justify-items: center;
+      gap: 0.9rem;
+      max-width: min(60rem, 92vw);
+      max-height: 88vh;
+      margin: 0;
+      transform: scale(0.94);
+      transition: transform 360ms cubic-bezier(0.3, 0.9, 0.3, 1);
+    }
+    .acto__visor--abierto .acto__visor-figura { transform: scale(1); }
+    .acto__visor-imagen {
+      display: block;
+      width: auto;
+      height: auto;
+      max-width: min(60rem, 92vw);
+      max-height: min(74vh, 46rem);
+      padding: 0.55rem;
+      border-radius: 4px;
+      background: #FBF6E9;
+      box-shadow: 0 34px 90px rgba(0, 0, 0, 0.8);
+    }
+    .acto__visor-texto {
+      font-family: var(--fuente-mano, cursive);
+      font-size: clamp(1.25rem, 4.5vw, 2rem);
+      line-height: 1.15;
+      color: var(--acto-dorado);
+      text-align: center;
+      text-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
+    }
+    .acto__visor-cerrar {
+      position: absolute;
+      top: max(1rem, env(safe-area-inset-top, 0px));
+      right: max(1rem, env(safe-area-inset-right, 0px));
+      z-index: 1;
+      width: 2.6rem;
+      height: 2.6rem;
+    }
+    .acto__visor-cerrar svg { width: 1.1rem; height: 1.1rem; }
+
     /* ---------- Adaptación por pantalla ---------- */
     @media (min-width: 900px) {
       .acto { --acto-lado: 12vw; }
@@ -3112,6 +3231,9 @@
       .acto__marca { max-width: 34vw; }
       .acto__pista { display: none; }
       .acto__polaroid { width: min(clamp(5.4rem, 30vw, 7.2rem), 23vh); }
+      .acto__dibujo { width: min(15rem, 64vw); margin-right: 0; }
+      .acto__visor { padding: 0.9rem; }
+      .acto__visor-imagen { max-height: 68vh; padding: 0.4rem; }
       .acto__carta { padding-top: min(20vh, 11rem); }
       .acto__cortina { width: 50%; }
       /* Las frases flotantes envuelven en vez de cortarse */
@@ -3153,7 +3275,10 @@
       .acto__media,
       .acto__acumula,
       .acto__extra,
-      .acto__carta { transition-duration: 1ms; }
+      .acto__carta,
+      .acto__visor,
+      .acto__visor-figura,
+      .acto__dibujo-marco { transition-duration: 1ms; }
       .acto-anim--subir.acto-elem--activo,
       .acto-anim--pop.acto-elem--activo,
       .acto-anim--deslizar.acto-elem--activo,
@@ -4954,6 +5079,7 @@
       }
       escenario.style.animation = "";
       estado = "cerrada";
+      try { sobre.focus({ preventScroll: true }); } catch (e) {}
     }, reduce ? 220 : 920);
   }
 
@@ -5049,8 +5175,8 @@
     <p class="sr-only" id="acto-descripcion">
       «Todo lo que no cabe en una sola frase»: al abrir la libreta se despliega una hoja con tus notas
       reales, aparecen las primeras entradas, después muchas frases flotando, luego los recuentos
-      calculados a partir de tus 100 notas y un corazón formado con fragmentos de tus propias palabras.
-      Al terminar podés leer las 100 notas completas antes de continuar hacia la carta final.
+      calculados a partir de tus 124 notas y un corazón formado con fragmentos de tus propias palabras.
+      Al terminar podés leer las 124 notas completas antes de continuar hacia la carta final.
     </p>
 
     <div class="acto__lector" id="acto-lector" role="dialog" aria-modal="true" aria-labelledby="acto-lector-titulo" hidden>
@@ -5066,6 +5192,17 @@
         <div class="acto__lector-lista" id="acto-lector-lista" tabindex="0" aria-label="Lista de notas románticas"></div>
         <p class="acto__lector-pie" id="acto-lector-pie"></p>
       </div>
+    </div>
+
+    <!-- Capa 60: visor grande del dibujo -->
+    <div class="acto__visor" id="acto-visor" role="dialog" aria-modal="true" aria-labelledby="acto-visor-texto" hidden>
+      <button class="acto__control acto__control--cerrar acto__visor-cerrar" id="acto-visor-cerrar" type="button" aria-label="Cerrar el dibujo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M5 5 L19 19 M19 5 L5 19"/></svg>
+      </button>
+      <figure class="acto__visor-figura">
+        <img class="acto__visor-imagen" id="acto-visor-imagen" src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" alt="" draggable="false" />
+        <figcaption class="acto__visor-texto" id="acto-visor-texto">Mi grandioso dibujo jejeje</figcaption>
+      </figure>
     </div>
 
     <audio id="acto-audio" preload="none" loop></audio>
@@ -5090,7 +5227,7 @@
        ------------------------------------------------------------
        ▼▼ QUÉ EDITAR ▼▼
        1) ACTO  ⇢ distancia, fechas y pista ambiental.
-       2) NOTAS ⇢ viven en «loveNotes.js» (las 100 notas románticas).
+       2) NOTAS ⇢ viven en «loveNotes.js» (las 124 notas románticas).
           Los recuentos se calculan solos con ese archivo; si no se
           carga, se usan CANTIDAD_TE_EXTRAÑO_EDITABLE y
           CANTIDAD_TE_AMO_EDITABLE como respaldo.
@@ -5122,6 +5259,10 @@
       var lectorPie = document.getElementById("acto-lector-pie");
       var lectorIndicador = document.getElementById("acto-lector-indicador");
       var lectorCerrar = document.getElementById("acto-lector-cerrar");
+      var visor = document.getElementById("acto-visor");
+      var visorImagen = document.getElementById("acto-visor-imagen");
+      var visorTexto = document.getElementById("acto-visor-texto");
+      var visorCerrar = document.getElementById("acto-visor-cerrar");
       var filtros = document.getElementById("acto-filtros");
       var botonEntrada = document.getElementById("boton-primer-acto");
       var notaEntrada = document.getElementById("acto-cta-nota");
@@ -5140,7 +5281,7 @@
       };
 
       /* ---------- 2. Las notas reales («Todo lo que no cabe…») ----------
-         Los datos viven en loveNotes.js (100 notas, texto intacto).
+         Los datos viven en loveNotes.js (124 notas, texto intacto).
          Acá solo se analizan: normalización, categorías y recuentos.
          Ninguna cifra se inventa: todo sale de las notas reales. */
       var LN = window.LoveNotes || null;
@@ -5178,7 +5319,7 @@
         };
       }
       var CONTADORES = contarBloc();
-      var TOTAL_NOTAS = CONTADORES.total || 100;
+      var TOTAL_NOTAS = CONTADORES.total || 124;
 
       /* ---------- 3. Corazón de palabras ----------
          El corazón se forma con fragmentos reales de las notas
@@ -5199,6 +5340,7 @@
          · tarjeta       tarjeta que se acumula
          · foto          fotografía grande (marcador si no hay imagen)
          · polaroid      polaroid pequeña que se acumula
+         · dibujo        miniatura ampliable que abre el visor grande
          · hoja          despliega la hoja del bloc (escena "bloc")
          · entradas      primeras notas escritas sobre la hoja
          · flotantes     frases reales que suben alrededor del escenario
@@ -5226,7 +5368,10 @@
           { tipo: "frase", texto: "El Fide nos presentó.", dur: 4, anim: "subir" },
           { tipo: "frase", texto: "Estábamos jugando Valorant con el discord de los imbéciles.", dur: 5, anim: "fundir" },
           { tipo: "frase", texto: "Y una de mis primeras preguntas fue...", dur: 4, anim: "fundir" },
-          { tipo: "burbuja", lado: "izq", texto: "¿Tú has comido paloma? 🕊️", dur: 6, anim: "pop" },
+          { tipo: "burbuja", lado: "izq", texto: "¿Tú has comido paloma? 🕊️", dur: 3, anim: "pop" },
+          { tipo: "dibujo", imagen: "img/paloma-dibujo.jpg",
+            alt: "Dibujo de una paloma con un corazón en el ojo, sobre el pasto y bajo el sol",
+            visorTexto: "Mi grandioso dibujo jejeje", dur: 7, anim: "pop" },
           { tipo: "burbuja", lado: "der", texto: "Qué sonso ❤️", dur: 5, anim: "deslizar" }
         ]},
 
@@ -5355,9 +5500,8 @@
         ]},
 
         { id: "carta", nombre: "La carta final", deco: "carta", pasos: [
-          { tipo: "frase", texto: "Y después de tantas veces que te lo escribí...", dur: 5, anim: "fundir" },
+          { tipo: "frase", texto: "Y después de tantas veces que te lo escribí...", dur: 5, anim: "fundir", accion: "carta" },
           { tipo: "frase", texto: "Todavía me quedan muchas cosas por decirte.", dur: 6, anim: "fundir" },
-          { tipo: "accion", accion: "carta", dur: 3 },
           { tipo: "carta-frase", texto: "Tal vez esto no está hecho con papel y cartón, amor.", dur: 8, anim: "subir" },
           { tipo: "carta-frase", texto: "Pero cada palabra, cada fotografía y cada pequeño movimiento fueron preparados pensando en vos.", dur: 9, anim: "subir" },
           { tipo: "carta-frase", texto: "Está hecho con tiempo, recuerdos y, sobre todo, con todo mi corazón.", dur: 9, anim: "subir" },
@@ -5369,9 +5513,11 @@
 
       /* ---------- 5. Estado ---------- */
       var abierto = false, estado = "idle", escenaIdx = 0, pasoIdx = -1;
+      var actoCompletado = false;
       var timer = null, tRestante = 0, tUltimo = 0;
       var musicaSonaba = false, lectorAbierto = false, reanudarLector = false;
       var lectorOrigen = null, estadoAntesLector = "playing";
+      var visorAbierto = false, visorOrigen = null, visorPauso = false;
       var miniMedia = false;   // los números se achican cuando aparece el corazón
       var sonidoOn = true, bloqueoClic = false;
       var nodos = []; // nodos por escena
@@ -5513,8 +5659,10 @@
       }
       function montarEscena(i) {
         escenaIdx = i;
+        actoCompletado = false;
         var n = nodos[i];
         n.media.innerHTML = "";
+        proyeccion.setAttribute("aria-hidden", "true");
         n.acumula.innerHTML = "";
         n.extra.innerHTML = "";
         n.flotantes.innerHTML = "";
@@ -5543,6 +5691,7 @@
         if (escena.id !== "preludio") {
           overlay.classList.remove("acto--telon");
           proyeccion.innerHTML = "";
+          proyeccion.setAttribute("aria-hidden", "true");
         }
         nombreEscena.textContent = "Escena " + (i + 1) + " de " + GUION.length + (escena.nombre ? " · " + escena.nombre : "");
         actualizarProgreso();
@@ -5616,6 +5765,28 @@
         }
         p.appendChild(el("p", "acto__polaroid-pie", escapar(paso.pie || paso.etiqueta || "")));
         return p;
+      }
+      /* Dibujo de la paloma: miniatura de chat que abre el visor grande */
+      function crearDibujo(paso) {
+        var boton = el("button", "acto__dibujo");
+        boton.type = "button";
+        boton.setAttribute("aria-haspopup", "dialog");
+        boton.setAttribute("aria-label", "Ver en grande: " + (paso.visorTexto || "mi dibujo"));
+        var marco = el("span", "acto__dibujo-marco");
+        var img = document.createElement("img");
+        img.src = paso.imagen;
+        img.alt = paso.alt || "Dibujo";
+        img.draggable = false;
+        marco.appendChild(img);
+        var pista = el("span", "acto__dibujo-pista", "Ver en grande");
+        pista.setAttribute("aria-hidden", "true");
+        marco.appendChild(pista);
+        boton.appendChild(marco);
+        boton.addEventListener("click", function (ev) {
+          ev.stopPropagation();
+          abrirVisor(boton, paso.imagen, img.alt, paso.visorTexto || "");
+        });
+        return boton;
       }
       /* ---------- Hoja del bloc: la página donde se escriben las notas ---------- */
       function crearHojaBloc() {
@@ -5799,7 +5970,7 @@
       var CAPA_DEL_PASO = {
         frase: "media", apertura: "media", "carta-frase": "media", numero: "media",
         foto: "media", contador: "media", burbuja: "acumula", estampa: "acumula",
-        tarjeta: "acumula", polaroid: "acumula", flotantes: "flotantes",
+        tarjeta: "acumula", polaroid: "acumula", dibujo: "acumula", flotantes: "flotantes",
         "libreta-final": "extra", libreta: "extra", boton: "extra", botones: "extra"
       };
       function activarCapa(n, capa) {
@@ -5909,6 +6080,8 @@
           n.media.appendChild(fig);
         } else if (paso.tipo === "polaroid") {
           n.acumula.appendChild(animar(crearPolaroid(paso), paso));
+        } else if (paso.tipo === "dibujo") {
+          n.acumula.appendChild(animar(crearDibujo(paso), paso));
         } else if (paso.tipo === "hoja") {
           if (n.bloc) n.bloc.classList.add("acto__bloc-hoja--viva");
         } else if (paso.tipo === "entradas") {
@@ -5950,9 +6123,15 @@
           n.extra.appendChild(animar(crearBotones(), paso));
         } else if (paso.tipo === "final") {
           proyeccion.innerHTML = "";
-          proyeccion.appendChild(animar(crearFinal(), paso));
+          proyeccion.setAttribute("aria-hidden", "false");
+          var cierreFinal = animar(crearFinal(), paso);
+          proyeccion.appendChild(cierreFinal);
+          var primerBotonFinal = cierreFinal.querySelector("button");
+          if (primerBotonFinal) { try { primerBotonFinal.focus({ preventScroll: true }); } catch (err) {} }
           overlay.classList.add("acto--cierre");
+          actoCompletado = true;
           borrarProgreso();
+          actualizarNotaEntrada();
         }
       }
 
@@ -6043,10 +6222,12 @@
       function irA(indice) {
         if (indice < 0 || indice >= GUION.length) return;
         limpiarTimer();
+        proyeccion.innerHTML = "";
+        proyeccion.setAttribute("aria-hidden", "true");
         ponerEstado("transitioning");
         if (indice === 0) overlay.classList.add("acto--telon");
         montarEscena(indice);
-        guardarProgreso();
+        if (indice > 0 && !actoCompletado) guardarProgreso(); else borrarProgreso();
         actualizarNotaEntrada();
         activarPaso(0);
       }
@@ -6157,7 +6338,8 @@
         var s = ++sesion;
         limpiarTimer();
         ponerEstado("exiting");
-        guardarProgreso();
+        if (!actoCompletado && escenaIdx > 0) guardarProgreso(); else borrarProgreso();
+        if (visorAbierto) cerrarVisor(true);
         if (lectorAbierto) cerrarLector(true);
         apagarAudio();
         overlay.classList.remove("acto--visible");
@@ -6170,6 +6352,7 @@
           overlay.hidden = true;
           overlay.classList.remove("acto--telon", "acto--cierre", "acto--oculto");
           proyeccion.innerHTML = "";
+          proyeccion.setAttribute("aria-hidden", "true");
           ponerEstado("idle");
           actualizarNotaEntrada();
           if (botonEntrada) { try { botonEntrada.focus({ preventScroll: true }); } catch (err) {} }
@@ -6178,6 +6361,7 @@
       function reiniciarActo() {
         borrarProgreso();
         overlay.classList.remove("acto--cierre");
+        if (visorAbierto) cerrarVisor(true);
         if (lectorAbierto) cerrarLector(true);
         ponerEstado("transitioning");
         irA(0);
@@ -6215,7 +6399,7 @@
       }
 
       /* ---------- 15. Lectura completa de las notas (capa 50) ----------
-         Las 100 notas numeradas, con filtros por categoría calculada.
+         Las 124 notas numeradas, con filtros por categoría calculada.
          El texto original nunca se modifica. */
       var FILTROS_RESPALDO = [
         { id: "amo", texto: "Te amo" }, { id: "extrano", texto: "Te extraño" },
@@ -6316,6 +6500,39 @@
         else if (!ev.shiftKey && document.activeElement === ultimo) { ev.preventDefault(); primero.focus(); }
       }
 
+      /* ---------- 15 bis. Visor grande del dibujo (capa 60) ---------- */
+      function abrirVisor(origen, src, alt, texto) {
+        if (visorAbierto || !visor) return;
+        visorAbierto = true;
+        visorOrigen = origen || document.activeElement;
+        visorImagen.src = src;
+        visorImagen.alt = alt || "Dibujo";
+        visorTexto.textContent = texto || "";
+        visorPauso = (estado === "playing" || estado === "notesPlaying" || estado === "closing");
+        if (visorPauso) pausar();
+        visor.hidden = false;
+        requestAnimationFrame(function () {
+          visor.classList.add("acto__visor--abierto");
+          try { visorCerrar.focus({ preventScroll: true }); } catch (err) {}
+        });
+      }
+      function cerrarVisor(silencioso) {
+        if (!visorAbierto) return;
+        visorAbierto = false;
+        visor.classList.remove("acto__visor--abierto");
+        setTimeout(function () { if (!visorAbierto) visor.hidden = true; }, reduce ? 30 : 340);
+        if (!silencioso) {
+          /* El foco vuelve a la miniatura antes de reanudar, por si el
+             paso siguiente reemplaza la escena. */
+          if (visorOrigen && document.contains(visorOrigen)) {
+            try { visorOrigen.focus({ preventScroll: true }); } catch (err) {}
+          }
+          if (visorPauso) continuar();
+        }
+        visorPauso = false;
+        visorOrigen = null;
+      }
+
       /* ---------- 16. Eventos ---------- */
       botonPausa.addEventListener("click", function (ev) { ev.stopPropagation(); alternarPausa(); });
       botonAnterior.addEventListener("click", function (ev) { ev.stopPropagation(); anteriorEscena(); });
@@ -6324,6 +6541,15 @@
       botonSonido.addEventListener("click", function (ev) { ev.stopPropagation(); alternarSonido(); });
       lectorCerrar.addEventListener("click", function (ev) { ev.stopPropagation(); cerrarLector(); });
       lector.addEventListener("click", function (ev) { if (ev.target === lector) cerrarLector(); });
+      if (visorCerrar) visorCerrar.addEventListener("click", function (ev) { ev.stopPropagation(); cerrarVisor(); });
+      if (visor) {
+        visor.addEventListener("click", function (ev) {
+          ev.stopPropagation();
+          if (ev.target === visor) cerrarVisor();
+        });
+        visor.addEventListener("pointerdown", function (ev) { ev.stopPropagation(); });
+        visor.addEventListener("pointerup", function (ev) { ev.stopPropagation(); });
+      }
       if (botonEntrada) botonEntrada.addEventListener("click", function () { abrir(); });
 
       function reencajar() { if (abierto) encajarEscena(); }
@@ -6335,6 +6561,14 @@
 
       document.addEventListener("keydown", function (ev) {
         if (!abierto) return;
+        if (visorAbierto) {
+          if (ev.key === "Escape") { ev.preventDefault(); cerrarVisor(); }
+          else if (ev.key === "Tab") {
+            ev.preventDefault();
+            try { visorCerrar.focus({ preventScroll: true }); } catch (err) {}
+          }
+          return;
+        }
         if (lectorAbierto) {
           if (ev.key === "Escape") { ev.preventDefault(); cerrarLector(); }
           else if (ev.key === "Tab") trampaDeFoco(ev);
@@ -6354,6 +6588,7 @@
       });
 
       overlay.addEventListener("click", function (ev) {
+        if (visorAbierto) return;
         if (bloqueoClic || estado === "entering" || estado === "exiting" || estado === "idle") return;
         if (ev.target.closest(".acto__barra, .acto__pie, .acto__lector, button, a")) return;
         var ancho = overlay.clientWidth || window.innerWidth;
@@ -6363,8 +6598,12 @@
       });
 
       var toqueX = null, toqueY = null;
-      overlay.addEventListener("pointerdown", function (ev) { toqueX = ev.clientX; toqueY = ev.clientY; });
+      overlay.addEventListener("pointerdown", function (ev) {
+        if (visorAbierto) return;
+        toqueX = ev.clientX; toqueY = ev.clientY;
+      });
       overlay.addEventListener("pointerup", function (ev) {
+        if (visorAbierto) { toqueX = null; toqueY = null; return; }
         if (toqueX === null) return;
         var dx = ev.clientX - toqueX, dy = ev.clientY - (toqueY || 0);
         toqueX = null;
